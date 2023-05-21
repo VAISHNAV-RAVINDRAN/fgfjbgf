@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.3/codemirror.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.3/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.3/mode/python/python.min.js"></script>
+    <link rel="stylesheet" href="print.css" media="print" />
+    <style>
+    @media print {
+    *{
+        display: none;
+     }
+    #editor{
+        display: block;
+    }
+    }
+    .CodeMirror {
+        height: 300px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+    #run-btn {
+        margin-top: 10px;
+    }
+    #output {
+        margin-top: 10px;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Python Code Editor</h1>
+      <textarea id="code" rows="10"># Write your Python code here</textarea>
+      <button id="run-btn" class="btn btn-primary">Run</button>
+      <div id="output"></div>
+    </div>
+    <script>
+    $(document).ready(function() {
+        var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode: 'python',
+        theme: 'default',
+        lineNumbers: true,
+        autofocus: true
+    });
+    $('#run-btn').click(function() {
+        var code = editor.getValue();
+        var output = $('#output');
+        output.html('');
+        try {
+            var result = eval(code);
+            if (result !== undefined) {
+                output.html(result);
+            }
+        } catch (e) {
+            output.html('Error: ' + e.message);
+        }
+        });
+    });
+    </script>
+    </body>
+</html>
